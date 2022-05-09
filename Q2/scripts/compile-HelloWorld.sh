@@ -15,14 +15,19 @@ echo "Compiling HelloWorld.circom..."
 
 # compile circuit
 
-circom HelloWorld.circom --r1cs --wasm --sym -o HelloWorld
-snarkjs r1cs info HelloWorld/HelloWorld.r1cs
+pwd
+ls
+circom HelloWorld.circom --r1cs --wasm --sym
+snarkjs r1cs info HelloWorld.r1cs
 
 # Start a new zkey and make a contribution
 
-snarkjs groth16 setup HelloWorld/HelloWorld.r1cs powersOfTau28_hez_final_10.ptau HelloWorld/circuit_0000.zkey
-snarkjs zkey contribute HelloWorld/circuit_0000.zkey HelloWorld/circuit_final.zkey --name="1st Contributor Name" -v -e="random text"
-snarkjs zkey export verificationkey HelloWorld/circuit_final.zkey HelloWorld/verification_key.json
+snarkjs groth16 setup HelloWorld.r1cs powersOfTau28_hez_final_10.ptau circuit_0000.zkey
+snarkjs zkey contribute circuit_0000.zkey circuit_final.zkey --name="1st Contributor Name" -v -e="random text"
+snarkjs zkey export verificationkey circuit_final.zkey verification_key.json
+
+# generate solidity contract
+snarkjs zkey export solidityverifier circuit_final.zkey ../HelloWorldVerifier.sol
 
 # generate solidity contract
 snarkjs zkey export solidityverifier HelloWorld/circuit_final.zkey ../HelloWorldVerifier.sol

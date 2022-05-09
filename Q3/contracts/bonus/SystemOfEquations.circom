@@ -11,5 +11,19 @@ template SystemOfEquations(n) { // n is the number of variables in the system of
 
     // [bonus] insert your code here
 }
+component multi = matMul(n,n,1);
 
-component main {public [A, b]} = SystemOfEquations(3);
+for (var i =0; i < n; i++){
+    for (var j = 0; j < n; j++){
+        multi.a[i][j] <== A[i][j];
+    }
+    multi.b[1][0] <== x[i];
+}
+
+component math1 = matElemSum(n, 1);
+component math2 = matElemSum(n, 1);
+
+for (var i =0; i<n; i++){
+    math1.a[i][0] <== multi.out[i][o];
+    math2.a[i][0] <== b[i];
+}
